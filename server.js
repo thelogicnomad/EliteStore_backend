@@ -31,9 +31,18 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
+const whitelist = [
+  process.env.FRONTEND_URL,
+  'http://localhost:3000',
+  'https://elite-store-frontend.vercel.app/'
+];
+
 // CORS configuration
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: (origin, cb) => {
+    if (!origin || whitelist.includes(origin)) return cb(null, true);
+    cb(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   optionsSuccessStatus: 200
 };
