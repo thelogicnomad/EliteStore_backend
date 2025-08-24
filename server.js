@@ -34,7 +34,7 @@ app.use('/api/', limiter);
 const whitelist = [
   process.env.FRONTEND_URL,
   'http://localhost:3000',
-  'https://elite-store-frontend.vercel.app/'
+  'https://elite-store-frontend.vercel.app'
 ];
 
 // CORS configuration
