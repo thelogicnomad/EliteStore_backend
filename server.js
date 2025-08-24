@@ -39,7 +39,11 @@ const whitelist = [
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: (origin, cb) => {
+    const clean = origin?.replace(/\/$/, '');          // strip trailing /
+    if (!origin || whitelist.includes(clean)) return cb(null, true);
+    cb(new Error('Not allowed by CORS'));
+  },
   credentials: true,
   optionsSuccessStatus: 200
 };
